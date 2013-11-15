@@ -10,3 +10,10 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+.tools {margin: 5px auto;
+		width: 500px;
+		height: 500px;
+		}
+.tools i {font-size: 40px;
+}
+.tools button {margin-bottom: 5px;}
