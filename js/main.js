@@ -46,3 +46,10 @@ dragArea.drag(
         state.perform(redoLine);
         undoButton.attr('disabled', false);
     });
+var pencilcolor = $("#pencil-color").on("change",function (event){
+	lineStyle.stroke = this.value;
+});
+
+
+
+
