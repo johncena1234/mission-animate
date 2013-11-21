@@ -26,15 +26,7 @@ dragArea.drag(
     	line.attr(lineStyle);
     },
     function onEnd(x, y, event) {
-        var curLine = line.remove();
-        function undoLine() {
-            curLine.remove();
-        }
-        function redoLine() {
-            s.append(curLine);
-            return undoLine;
-        }
-        state.perform(redoLine);
+        state.perform(s, InsertSVG(line.remove()));
     });
 
 var pencilcolor = $("#pencil-color").on("change",function (event){
@@ -42,7 +34,16 @@ var pencilcolor = $("#pencil-color").on("change",function (event){
 });
 
 function ViewModel() {
+    var self = this;
+    this.mainSvg = mainSvg;
+    this.s = s;
     this.state = state;
+    this.undo = function undo() {
+        self.state.undo(self.s);
+    };
+    this.redo = function redo() {
+        self.state.redo(self.s);
+    };
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
