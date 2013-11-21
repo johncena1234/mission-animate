@@ -1,45 +1,43 @@
 <!doctype html>
-<html>
-  <head>
-    <title>Mission Animate - Create</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- http://getbootstrap.com/ -->
-    <link rel="stylesheet" href="libraries/bootstrap-3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="libraries/bootstrap-3.0.2/css/bootstrap-theme.min.css">
-    <!-- http://fontawesome.io/ -->
-    <link rel="stylesheet" href="libraries/font-awesome-4.0.3/css/font-awesome.min.css">
-    <!-- our css -->
-    <link rel="stylesheet" href="css/main.css">
-  </head>
-  <body style="background:yellow">
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html" style="color:yellow; font-family:cursive;"><img src="logo.png"></img>Mission Animate</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html" style="color:yellow; font-family:cursive;">Home</a></li>
-            <li class="active"><a href="edit.html" style="color:yellow; font-family:cursive;">Create</a></li>
-            <li><a href="about.html" style="color:yellow; font-family:cursive;">About</a></li>
-            <li><a href="help.html" style="color:yellow; font-family:cursive;">Help</a></li>
-            <li><a href="changes.html" style="color:yellow; font-family:cursive;">Changes</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+<html ng-app>
+<head>
+  <title>Mission Animate - Create</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- http://getbootstrap.com/ -->
+  <link rel="stylesheet" href="libraries/bootstrap-3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="libraries/bootstrap-3.0.2/css/bootstrap-theme.min.css">
+  <!-- http://fontawesome.io/ -->
+  <link rel="stylesheet" href="libraries/font-awesome-4.0.3/css/font-awesome.min.css">
+  <!-- our css -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body style="background:yellow">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html" style="color:yellow; font-family:cursive;"><img src="logo.png"></img>Mission Animate</a>
       </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html" style="color:yellow; font-family:cursive;">Home</a></li>
+          <li class="active"><a href="edit.html" style="color:yellow; font-family:cursive;">Create</a></li>
+          <li><a href="about.html" style="color:yellow; font-family:cursive;">About</a></li>
+          <li><a href="help.html" style="color:yellow; font-family:cursive;">Help</a></li>
+          <li><a href="changes.html" style="color:yellow; font-family:cursive;">Changes</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
-    <h1>THIS PAGE IS STILL IN WORK</h1>
-    </body>
+  </div>
 
-    <div class="container" style="background:white">
-      <svg id="svg" width="500" height="500">
-      </svg>
+  <div class="container" style="background:white">
+    <svg id="svg" width="500" height="500">
+    </svg>
     <div class="tools">
       <button type="button" class="btn btn-default back" title="Go Back"> <i class="fa fa-caret-left"></i> </button>
       <button type="button" class="btn btn-default forward" title="Go Forward"> <i class="fa fa-caret-right"></i> </button>
@@ -54,21 +52,20 @@
       <button type="button" class="btn btn-default onion skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
       <input type="color" id="pencil-color" title="Change Color" class="btn-default"/>
       <div style="text-align: center; font-size: 36px; font-family:cursive">
-      Need help? Go to <a href="help.html">this page!</a>
-      <a href="about.html" class="btn btn-primary btn-lg" role="button" style="font-family:cursive;">Found an error? Email us!</a>
+        Need help? Go to <a href="help.html">this page!</a>
+        <a href="about.html" class="btn btn-primary btn-lg" role="button" style="font-family:cursive;">Found an error? Email us!</a>
+      </div>
     </div>
-    </div>
-    </div><!-- /.container -->
-    
-    <!-- http://jquery.com/ -->
-    <script src="libraries/jquery-2.0.3.min.js"></script>
-    <!-- http://snapsvg.io/ -->
-    <script src="libraries/Snap.svg-0.1.0/dist/snap.svg-min.js"></script>
-    <!-- http://getbootstrap.com/ -->
-    <script src="libraries/bootstrap-3.0.2/js/bootstrap.min.js"></script>
-    <!-- our javascript -->
-    <script src="js/state-manager.js"></script>
-    <script src="js/main.js"></script>
-  </body>
-</html>
+  </div><!-- /.container -->
 
+  <!-- http://jquery.com/ -->
+  <script src="libraries/jquery-2.0.3.min.js"></script>
+  <!-- http://snapsvg.io/ -->
+  <script src="libraries/Snap.svg-0.1.0/dist/snap.svg-min.js"></script>
+  <!-- http://getbootstrap.com/ -->
+  <script src="libraries/bootstrap-3.0.2/js/bootstrap.min.js"></script>
+  <!-- our javascript -->
+  <script src="js/state-manager.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
