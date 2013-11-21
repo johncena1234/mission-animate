@@ -13,25 +13,6 @@ dragArea.attr({
     fill:"rgba(0,0,0,0)"
 });
 
-var undoButton = $('button.undo');
-// The undo button starts off disabled
-undoButton.attr('disabled', true);
-undoButton.on('click', function (event) {
-    event.preventDefault();
-    var undoCount = state.undo();
-    redoButton.attr('disabled', false);
-    undoButton.attr('disabled', undoCount === 0);
-});
-
-var redoButton = $('button.redo');
-// The redo button starts off disabled
-redoButton.attr('disabled', true);
-redoButton.on('click', function (event) {
-    event.preventDefault();
-    var redoCount = state.redo();
-    redoButton.attr('disabled', redoCount === 0);
-});
-
 var line = null;
 var lineStyle = {stroke: "#000", strokeWidth: 10};
 dragArea.drag(
@@ -54,13 +35,14 @@ dragArea.drag(
             return undoLine;
         }
         state.perform(redoLine);
-        redoButton.attr('disabled', true);
-        undoButton.attr('disabled', false);
     });
+
 var pencilcolor = $("#pencil-color").on("change",function (event){
 	lineStyle.stroke = this.value;
 });
 
-
-
-
+function ViewModel() {
+    this.state = state;
+}
+var viewModel = new ViewModel();
+ko.applyBindings(viewModel);

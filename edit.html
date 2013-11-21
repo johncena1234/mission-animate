@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html>
 <head>
   <title>Mission Animate - Create</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,8 +45,8 @@
       <button type="button" class="btn btn-default mouse" title="Mouse"> <i class="fa fa-location-arrow"></i> </button>
       <button type="button" class="btn btn-default pencil" title="Pencil"> <i class="fa fa-pencil"></i> </button>
       <button type="button" class="btn btn-default eraser" title="Eraser"> <i class="fa fa-eraser"></i> </button>
-      <button type="button" class="btn btn-default undo" title="Undo"> <i class="fa fa-undo"></i> </button>
-      <button type="button" class="btn btn-default redo" title="Redo"> <i class="fa fa-repeat"></i> </button>
+      <button type="button" class="btn btn-default undo" title="Undo" data-bind="enable: state.canUndo(), click: state.undo"> <i class="fa fa-undo"></i> </button>
+      <button type="button" class="btn btn-default redo" title="Redo" data-bind="enable: state.canRedo(), click: state.redo"> <i class="fa fa-repeat"></i> </button>
       <button type="button" class="btn btn-default size" title="Pencil Size"> <i class="fa fa-circle"></i> </button>
       <button type="button" class="btn btn-default size" title="Picture Size"> <i class="fa fa-arrows-alt"></i> </button>
       <button type="button" class="btn btn-default onion skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
@@ -60,6 +60,8 @@
 
   <!-- http://jquery.com/ -->
   <script src="libraries/jquery-2.0.3.min.js"></script>
+  <!-- http://knockoutjs.com/ -->
+  <script src="libraries/knockout-3.0.0.min.js"></script>
   <!-- http://snapsvg.io/ -->
   <script src="libraries/Snap.svg-0.1.0/dist/snap.svg-min.js"></script>
   <!-- http://getbootstrap.com/ -->
