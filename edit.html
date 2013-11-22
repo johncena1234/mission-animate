@@ -47,14 +47,14 @@
       <button type="button" class="btn btn-default forward" title="Go Forward"> <i class="fa fa-caret-right"></i> </button>
       <button type="button" class="btn btn-default pause" title="Pause"> <i class="fa fa-caret-square-o-right"></i> </button>
       <button type="button" class="btn btn-default mouse" title="Mouse"> <i class="fa fa-location-arrow"></i> </button>
-      <button type="button" class="btn btn-default pencil" title="Pencil"> <i class="fa fa-pencil"></i> </button>
-      <button type="button" class="btn btn-default eraser" title="Eraser"> <i class="fa fa-eraser"></i> </button>
+      <button type="button" class="btn btn-default pencil" data-tool="pencil" data-bind="css: {active: tool() == 'pencil'}, click: changeTool" title="Pencil"> <i class="fa fa-pencil"></i> </button>
+      <button type="button" class="btn btn-default eraser" data-tool="eraser" data-bind="css: {active: tool() == 'eraser'}, click: changeTool" title="Eraser"> <i class="fa fa-eraser"></i> </button>
       <button type="button" class="btn btn-default undo" title="Undo" data-bind="enable: state.canUndo(), click: undo"> <i class="fa fa-undo"></i> </button>
       <button type="button" class="btn btn-default redo" title="Redo" data-bind="enable: state.canRedo(), click: redo"> <i class="fa fa-repeat"></i> </button>
       <button type="button" class="btn btn-default size" title="Pencil Size"> <i class="fa fa-circle"></i> </button>
       <button type="button" class="btn btn-default size" title="Picture Size"> <i class="fa fa-arrows-alt"></i> </button>
       <button type="button" class="btn btn-default onion skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
-      <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: lineStyle.stroke" />
+      <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: lineStyles.pencil.stroke" />
       <div style="text-align: center; font-size: 36px; font-family:cursive">
         Need help? Go to <a href="help.html">this page!</a>
         <a href="about.html" class="btn btn-primary btn-lg" role="button" style="font-family:cursive;">Found an error? Email us!</a>

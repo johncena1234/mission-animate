@@ -9,7 +9,6 @@ var s = mainSvg.select('.draw-area');
 
 // dragArea is on top of s, so we can draw over the whole surface
 var dragArea = mainSvg.select('.drag-area');
-
 var line = null;
 dragArea.drag(
     function onMove(dx, dy, x, y, event) {
@@ -21,7 +20,7 @@ dragArea.drag(
     	line = s.line(
             event.offsetX, event.offsetY,
             event.offsetX, event.offsetY);	
-    	line.attr(viewModel.lineStyle);
+    	line.attr(viewModel.lineStyles[viewModel.tool()]);
     },
     function onEnd(x, y, event) {
         state.perform(s, InsertSVG(line.remove()));
@@ -29,10 +28,16 @@ dragArea.drag(
 
 function ViewModel() {
     var self = this;
+    this.tool = ko.observable("pencil");
     this.mainSvg = mainSvg;
-    this.lineStyle = {stroke: "#000000", strokeWidth: 10};
+    this.lineStyles = {
+    	pencil: {stroke: "#000000", strokeWidth: 10},
+    	eraser: {stroke: "white", strokeWidth: 10}};
     this.s = s;
     this.state = state;
+    this.changeTool = function(model, event) {
+    	this.tool(event.currentTarget.dataset.tool);
+    };
     this.undo = function undo() {
         self.state.undo(self.s);
     };
@@ -42,3 +47,4 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
+
