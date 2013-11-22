@@ -27,3 +27,7 @@ body {
 	width: 52px;
 	border: 1px solid #ccc;
 }
+.fancy {
+	font-family: cursive;
+	color: yellow;
+}
