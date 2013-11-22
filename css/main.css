@@ -17,3 +17,17 @@ body {
 .tools i {font-size: 40px;
 }
 .tools button {margin-bottom: 5px;}
+
+#pencil-color {
+	margin-bottom: 5px;
+	padding: 5px 5px;
+	vertical-align: middle;
+	border-radius: 4px;
+	height: 54px;
+	width: 52px;
+	border: 1px solid #ccc;
+}
+.fancy {
+	font-family: cursive;
+	color: yellow;
+}
