@@ -26,12 +26,6 @@ dragArea.drag(
     function onEnd(x, y, event) {
         state.perform(s, InsertSVG(line.remove()));
     });
-<<<<<<< HEAD
-var pencilcolor = $("#pencil-color").on("change",function (event){
-	lineStyle.stroke = this.value;
-});
-
-=======
 
 function ViewModel() {
     var self = this;
@@ -48,4 +42,3 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
->>>>>>> 3b055a82482a587c6cc067788294c5bf150c1b1e
