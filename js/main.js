@@ -50,6 +50,3 @@ var pencilcolor = $("#pencil-color").on("change",function (event){
 	lineStyle.stroke = this.value;
 });
 
-
-
-
