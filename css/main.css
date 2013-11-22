@@ -27,7 +27,8 @@ body {
 	width: 52px;
 	border: 1px solid #ccc;
 }
-.fancy {
+#ma .fancy {
 	font-family: cursive;
 	color: yellow;
 }
+

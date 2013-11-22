@@ -11,7 +11,7 @@
   <!-- our css -->
   <link rel="stylesheet" href="css/main.css">
 </head>
-<body style="background:yellow">
+<body style="background:orange" id="ma">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -21,7 +21,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html" style="color:yellow; font-family:cursive;"><img src="logo.png"></img>Mission Animate</a>
+        <div class="navbar-brand" style="color:yellow; font-family:cursive;"><img src="logo.png"></img> Mission Animate</div>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -34,7 +34,11 @@
       </div><!--/.nav-collapse -->
     </div>
   </div>
-
+  <div style="text-align: center;font-family: cursive; font-size: 24px;">
+    <p> </p>
+    <p>Here is our app, enjoy!</p>
+    <p> </p>
+  </div>
   <div class="container" style="background:white">
     <svg id="svg" width="500" height="500">
       <!-- This group is where we put the graphics -->
@@ -55,7 +59,7 @@
       <button type="button" class="btn btn-default size" title="Picture Size"> <i class="fa fa-arrows-alt"></i> </button>
       <button type="button" class="btn btn-default onion skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
       <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: lineStyle.stroke" />
-      <div style="text-align: center; font-size: 36px; font-family:cursive">
+      <div style="text-align: center; font-size: 36px; font-family:cursive;">
         Need help? Go to <a href="help.html">this page!</a>
         <a href="about.html" class="btn btn-primary btn-lg" role="button" style="font-family:cursive;">Found an error? Email us!</a>
       </div>
