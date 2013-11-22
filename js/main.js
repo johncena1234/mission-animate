@@ -5,13 +5,10 @@ var state = new StateManager();
 var mainSvg = Snap("#svg");
 
 // s will be our drawing surface
-var s = mainSvg.group();
+var s = mainSvg.select('.draw-area');
 
 // dragArea is on top of s, so we can draw over the whole surface
-var dragArea = mainSvg.rect(0,0,500,500);
-dragArea.attr({
-    fill: "rgba(0,0,0,0)"
-});
+var dragArea = mainSvg.select('.drag-area');
 
 var line = null;
 dragArea.drag(

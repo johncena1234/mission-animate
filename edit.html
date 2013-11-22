@@ -37,6 +37,10 @@
 
   <div class="container" style="background:white">
     <svg id="svg" width="500" height="500">
+      <!-- This group is where we put the graphics -->
+      <g class="draw-area"></g>
+      <!-- This rect is usually on top for the drawing tools -->
+      <rect x="0" y="0" width="500" height="500" fill="rgba(0,0,0,0)" class="drag-area"/>
     </svg>
     <div class="tools">
       <button type="button" class="btn btn-default back" title="Go Back"> <i class="fa fa-caret-left"></i> </button>
