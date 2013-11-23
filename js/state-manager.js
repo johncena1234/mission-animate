@@ -34,6 +34,14 @@ StateManager.prototype._perform = function StateManager__perform(s, action) {
     this.undoStack.push({undo: action(s, seq), redo: action, seq: seq});
 };
 
+function seqSelector(seq) {
+    return '*[data-seq="' + seq + '"]';
+}
+
+function forEachSVG(s, sel, f) {
+    Array.prototype.forEach.call(s.selectAll(sel), f);
+}
+
 function InsertSVG(elem) {
     function perform(s, seq) {
         var elem = Snap.parse(perform.svgText).select('*');
@@ -42,10 +50,31 @@ function InsertSVG(elem) {
         return undo;
     }
     function undo(s, seq) {
-        Array.prototype.map.call(
-            s.selectAll('*[data-seq="' + seq + '"]'),
+        forEachSVG(
+            s,
+            seqSelector(seq),
             function (elem) { elem.remove(); });
     }
     perform.svgText = elem.toString();
+    return perform;
+}
+
+function ModifySVG(elem, from, to) {
+    function perform(s, _seq) {
+        forEachSVG(
+            s,
+            seqSelector(perform.seq),
+            function (elem) { elem.attr(perform.to); });
+        return undo;
+    }
+    function undo(s, _seq) {
+        forEachSVG(
+            s,
+            seqSelector(perform.seq),
+            function (elem) { elem.attr(perform.from); });
+    }
+    perform.seq = elem.node.dataset.seq;
+    perform.from = from;
+    perform.to = to;
     return perform;
 }
