@@ -56,17 +56,18 @@ function ViewModel() {
         }
     }).extend({throttle: 250});
 
-    mainSvg.drag(
-        function onMove(dx, dy, x, y, event) {
-            self.currentTool().onMove(dx, dy, x, y, event);
-        },
-        function onStart(x, y, event) {
-            self.currentTool().onStart(x, y, event);
-        },
-        function onEnd(x, y, event) {
-            self.currentTool().onEnd(x, y, event);
-        });
-
+    function onMove(dx, dy, x, y, event) {
+        self.currentTool().onMove(dx, dy, x, y, event);
+    }
+    function onStart(x, y, event) {
+        self.currentTool().onStart(x, y, event);
+    }
+    function onEnd(x, y, event) {
+        self.currentTool().onEnd(x, y, event);
+    }
+    dragArea.drag(onMove, onStart, onEnd);
+    s.drag(onMove, onStart, onEnd);
+    mouseArea.drag(onMove, onStart, onEnd);
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
