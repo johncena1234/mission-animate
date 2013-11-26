@@ -1,25 +1,32 @@
 body {
-  padding-top: 50px;
+	padding-top: 50px;
 }
+
 #svg {
 	display: block;
-    margin: 5px auto;
-    border: 1px solid black;
+	margin: 5px auto;
+	border: 1px solid black;
 }
 #svg .selected {
 	filter: url(#glow);
 }
+
 .starter-template {
-  padding: 40px 15px;
-  text-align: center;
+	padding: 40px 15px;
+	text-align: center;
 }
-.tools {margin: 5px auto;
-		width: 500px;
-		height: 500px;
-		}
-.tools i {font-size: 40px;
+
+.tools {
+	margin: 5px auto;
+	width: 500px;
+	height: 500px;
 }
-.tools button {margin-bottom: 5px;}
+.tools i {
+	font-size: 40px;
+}
+.tools button {
+	margin-bottom: 5px;
+}
 
 #pencil-color {
 	margin-bottom: 5px;
@@ -30,8 +37,8 @@ body {
 	width: 52px;
 	border: 1px solid #ccc;
 }
+
 #ma .fancy {
 	font-family: cursive;
 	color: yellow;
 }
-
