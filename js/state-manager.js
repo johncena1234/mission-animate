@@ -1,7 +1,6 @@
-function StateManager(seqNumber, undoStack, redoStack) {
-    this.seqNumber = seqNumber || 0;
-    this.undoStack = ko.observableArray(undoStack || []);
-    this.redoStack = ko.observableArray(redoStack || []);
+function StateManager(undoStack, redoStack) {
+    this.undoStack = ko.observableArray((undoStack || []).slice());
+    this.redoStack = ko.observableArray((redoStack || []).slice());
     this.canUndo = ko.computed(
         function () { return this.undoStack().length > 0; },
         this);
@@ -12,35 +11,54 @@ function StateManager(seqNumber, undoStack, redoStack) {
     this.redo = this.redo.bind(this);
     this.perform = this.perform.bind(this);
 }
+StateManager.prototype.copy = function StateManager_copy() {
+    return new StateManager(this.undoStack(), this.redoStack());
+};
 StateManager.prototype.toJSON = function StateManager_toJSON() {
     return {
         op: 'StateManager',
-        args: [this.seqNumber, this.undoStack(), this.redoStack()]
+        args: [this.undoStack(), this.redoStack()]
     };
 };
 StateManager.prototype.undo = function StateManager_undo(s) {
-    if (this.undoStack().length > 0) {
-        var performer = this.undoStack.pop();
-        performer.action.undo(s, performer.seq);
-        this.redoStack.push(performer.action);
-        this.seqNumber = this.seqNumber - 1;
+    var seq = this.undoStack().length;
+    if (seq > 0) {
+        var action = this.undoStack.pop();
+        action.undo(s, seq);
+        this.redoStack.push(action);
     }
+};
+StateManager.prototype.cache = function StateManager_cache(s) {
+    this.cachedSVG = s.innerSVG();
+    return this;
+};
+StateManager.prototype.restore = function StateManager_restore(s) {
+    forEachSVG(s, '*', function (elem) {
+        elem.remove();
+    });
+    if (this.cachedSVG) {
+        forEachSVG(Snap.parse(this.cachedSVG), '*', function (elem) {
+            s.append(elem);
+        });
+    } else {
+        this.undoStack().forEach(function (action, i) {
+            action.redo(s, 1 + i);
+        });
+    }
+    return this;
 };
 StateManager.prototype.redo = function StateManager_redo(s) {
     if (this.redoStack().length > 0) {
-        this.seqNumber = this.seqNumber + 1;
         this._perform(s, this.redoStack.pop());
     }
 };
 StateManager.prototype.perform = function StateManager_perform(s, action) {
-    this.seqNumber = this.seqNumber + 1;
     this.redoStack.splice(0, this.redoStack().length);
     this._perform(s, action);
 };
 StateManager.prototype._perform = function StateManager__perform(s, action) {
-    var seq = this.seqNumber;
-    action.redo(s, seq);
-    this.undoStack.push({action: action, seq: seq});
+    this.undoStack.push(action);
+    action.redo(s, this.undoStack().length);
 };
 
 function seqSelector(seq) {

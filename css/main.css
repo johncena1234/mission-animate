@@ -16,10 +16,19 @@ body {
 	text-align: center;
 }
 
+.after-tools {
+	margin: 5px auto;
+	width: 500px;
+}
+
 .tools {
 	margin: 5px auto;
 	width: 500px;
-	height: 500px;
+	user-select: none;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
 }
 .tools i {
 	font-size: 40px;

@@ -11,12 +11,18 @@ PencilTool.prototype.onStart = function PencilTool_onStart(x, y, event) {
     this.line.attr(this.style);
 };
 PencilTool.prototype.onMove = function PencilTool_onMove(dx, dy, x, y, event) {
+    if (this.line === null) {
+        return;
+    }
     var points = this.line.data('points');
     points.push(points[0] + dx, points[1] + dy);
     this.line.attr('path', ['M', points[0], points[1], 'R'].concat(points).join(' '));
 };
 PencilTool.prototype.onEnd = function PencilTool_onEnd(x, y, event) {
-    this.viewModel.state.perform(
+    if (this.line === null) {
+        return;
+    }
+    this.viewModel.frames.currentFrame().perform(
         this.viewModel.s,
         InsertSVG(this.line.remove().toString()));
     this.line = null;
@@ -27,6 +33,9 @@ function LineTool() {
 }
 LineTool.prototype = Object.create(PencilTool.prototype);
 LineTool.prototype.onMove = function LineTool_onMove(dx, dy, x, y, event) {
+    if (this.line === null) {
+        return;
+    }
     var points = this.line.data('points');
     points.splice(2, 2, points[0] + dx, points[1] + dy);
     this.line.attr('path', ['M', points[0], points[1], 'L'].concat(points).join(' '));
@@ -56,7 +65,7 @@ MouseTool.prototype.onEnd = function MouseTool_onEnd(x, y, event) {
     if (this.target === null) {
         return;
     }
-    this.target.commit(this.viewModel.s, this.viewModel.state);
+    this.target.commit(this.viewModel.s, this.viewModel.frames.currentFrame());
 };
 MouseTool.prototype.strokeChanged = function MouseTool_strokeChanged(newStroke) {
     if (this.target === null) {
@@ -68,7 +77,7 @@ MouseTool.prototype.clearSelection = function MouseTool_clearSelection() {
     if (this.target === null) {
         return;
     }
-    this.target.commit(s, state);
+    this.target.commit(s, this.viewModel.frames.currentFrame());
     this.target.node.classList.remove('selected');
     this.target = null;
     this.origTransform = null;
