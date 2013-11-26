@@ -83,8 +83,5 @@ function ViewModel() {
     s.drag(onMove, onStart, onEnd);
     mouseArea.drag(onMove, onStart, onEnd);
 }
-$('svg').on('contextmenu', function (event) {
-    console.log([this, event]);
-});
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
