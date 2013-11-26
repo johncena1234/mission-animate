@@ -64,26 +64,41 @@ var lineTool = {
 
 var mouseTool = {
     target: null,
+    origTransform: null,
     onStart: function onStart(x, y, event) {
-        if (event.target.classList.contains('mouse-area')) return;
-        this.target = Snap(event.target);
-
+        if (event.target.classList.contains('mouse-area')) {
+            this.clearSelection();
+            return;
+        }
+        this.target = WrapSnap(event.target);
+        this.origTransform = this.target.attr('transform').toString();
         this.target.node.classList.add('selected');
-        this.target.data('orig-transform', this.target.attr('transform') || 'T0,0');
     },
     onMove: function onMove(dx, dy, x, y, event) {
-        if (this.target === null) return;
-        this.target.attr('transform', this.target.data('orig-transform') + 't' + [dx, dy].join(','));
+        if (this.target === null) {
+            return;
+        }
+        this.target.attr('transform', this.origTransform + 't' + [dx, dy].join(','));
     },
     onEnd: function onEnd(x, y, event) {
-        if (this.target === null) return;
-        this.target.node.classList.remove('selected');
-        state.perform(s,
-            ModifySVG(
-                this.target,
-                {transform: this.target.data('orig-transform')},
-                {transform: this.target.attr('transform')}));
-        this.target = null;
+        if (this.target === null) {
+            return;
+        }
+        this.target.commit(s, state);
+    },
+    strokeChanged: function (newStroke) {
+        if (this.target === null) {
+            return;
+        }
+        this.target.attr('stroke', newStroke);
+    },
+    clearSelection: function clearSelection() {
+        if (this.target !== null) {
+            this.target.commit(s, state);
+            this.target.node.classList.remove('selected');
+            this.target = null;
+            this.origTransform = null;
+        }
     }
 };
 
@@ -115,16 +130,27 @@ function ViewModel() {
     	this.tool(event.currentTarget.dataset.tool);
     };
     this.undo = function undo() {
+        mouseTool.clearSelection();
         self.state.undo(self.s);
     };
     this.redo = function redo() {
+        mouseTool.clearSelection();
         self.state.redo(self.s);
     };
     // Knockout won't do css bindings on SVG elements
     this.tool.subscribe(function (tool) {
         dragArea.node.classList.toggle('hide', tool === 'mouse');
         mouseArea.node.classList.toggle('hide', tool !== 'mouse');
+        mouseTool.clearSelection();
     });
+    this.stroke = ko.computed({
+        owner: this,
+        read: function () { return this.drawStyle.stroke; },
+        write: function (val) {
+            this.drawStyle.stroke = val;
+            mouseTool.strokeChanged(val);
+        }
+    }).extend({throttle: 250});
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
