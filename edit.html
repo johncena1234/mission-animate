@@ -61,10 +61,10 @@
       <button type="button" class="btn btn-default back" title="Go Back"> <i class="fa fa-caret-left"></i> </button>
       <button type="button" class="btn btn-default forward" title="Go Forward"> <i class="fa fa-caret-right"></i> </button>
       <button type="button" class="btn btn-default pause" title="Pause"> <i class="fa fa-caret-square-o-right"></i> </button>
-      <button type="button" class="btn btn-default mouse" title="Mouse" data-tool="mouse" data-bind="css: {active: tool() === 'mouse'}, click: changeTool"> <i class="fa fa-location-arrow"></i> </button>
-      <button type="button" class="btn btn-default pencil" data-tool="pencil" data-bind="css: {active: tool() === 'pencil'}, click: changeTool" title="Pencil"> <i class="fa fa-pencil"></i> </button>
-      <button type="button" class="btn btn-default line" data-tool="line" data-bind="css: {active: tool() === 'line'}, click: changeTool" title="Line"> <i class="fa fa-minus"></i> </button>
-      <button type="button" class="btn btn-default eraser" data-tool="eraser" data-bind="css: {active: tool() === 'eraser'}, click: changeTool" title="Eraser"> <i class="fa fa-eraser"></i> </button>
+      <button type="button" class="btn btn-default mouse" title="Mouse" data-tool="mouse" data-bind="css: toolClasses($element), click: changeTool"> <i class="fa fa-location-arrow"></i> </button>
+      <button type="button" class="btn btn-default pencil" data-tool="pencil" data-bind="css: toolClasses($element), click: changeTool" title="Pencil"> <i class="fa fa-pencil"></i> </button>
+      <button type="button" class="btn btn-default line" data-tool="line" data-bind="css: toolClasses($element), click: changeTool" title="Line"> <i class="fa fa-minus"></i> </button>
+      <button type="button" class="btn btn-default eraser" data-tool="eraser" data-bind="css: toolClasses($element), click: changeTool" title="Eraser"> <i class="fa fa-eraser"></i> </button>
       <button type="button" class="btn btn-default undo" title="Undo" data-bind="enable: state.canUndo(), click: undo"> <i class="fa fa-undo"></i> </button>
       <button type="button" class="btn btn-default redo" title="Redo" data-bind="enable: state.canRedo(), click: redo"> <i class="fa fa-repeat"></i> </button>
       <button type="button" class="btn btn-default pencil-size" title="Pencil Size"> <i class="fa fa-circle"></i> </button>

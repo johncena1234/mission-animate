@@ -28,8 +28,11 @@ function ViewModel() {
     this.mainSvg = mainSvg;
     this.s = s;
     this.state = state;
-    this.changeTool = function(model, event) {
+    this.changeTool = function changeTool(model, event) {
     	this.tool(event.currentTarget.dataset.tool);
+    };
+    this.toolClasses = function toolClasses(element) {
+        return {active: element.dataset.tool === this.tool()};
     };
     this.undo = function undo() {
         this.tools.mouse.clearSelection();
@@ -47,10 +50,10 @@ function ViewModel() {
     }, this);
     this.stroke = ko.computed({
         owner: this,
-        read: function () {
+        read: function readStroke() {
             return this.drawStyle.stroke;
         },
-        write: function (val) {
+        write: function writeStroke(val) {
             this.drawStyle.stroke = val;
             this.tools.mouse.strokeChanged(val);
         }
