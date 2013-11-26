@@ -41,6 +41,15 @@
   </div>
   <div class="container" style="background:white">
     <svg id="svg" width="500" height="500">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
       <!-- This rect is on the bottom for unselecting -->
       <rect x="0" y="0" width="500" height="500" fill="rgba(0,0,0,0)" class="mouse-area"/>
       <!-- This group is where we put the graphics -->
@@ -82,6 +91,7 @@
   <script src="libraries/bootstrap-3.0.2/js/bootstrap.min.js"></script>
   <!-- our javascript -->
   <script src="js/state-manager.js"></script>
+  <script src="js/tools.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

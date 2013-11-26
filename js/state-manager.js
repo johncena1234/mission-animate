@@ -1,7 +1,7 @@
-function StateManager() {
-    this.seqNumber = 0;
-    this.undoStack = ko.observableArray([]);
-    this.redoStack = ko.observableArray([]);
+function StateManager(seqNumber, undoStack, redoStack) {
+    this.seqNumber = seqNumber || 0;
+    this.undoStack = ko.observableArray(undoStack || []);
+    this.redoStack = ko.observableArray(redoStack || []);
     this.canUndo = ko.computed(
         function () { return this.undoStack().length > 0; },
         this);
@@ -12,6 +12,12 @@ function StateManager() {
     this.redo = this.redo.bind(this);
     this.perform = this.perform.bind(this);
 }
+StateManager.prototype.toJSON = function StateManager_toJSON() {
+    return {
+        op: 'StateManager',
+        args: [this.seqNumber, this.undoStack(), this.redoStack()]
+    };
+};
 StateManager.prototype.undo = function StateManager_undo(s) {
     if (this.undoStack().length > 0) {
         var performer = this.undoStack.pop();
@@ -54,7 +60,7 @@ function attributesToObject(namedNodeMap, res) {
     return res;
 }
 
-function InsertSVG(elem) {
+function InsertSVG(svgText) {
     function perform(s, seq) {
         var elem = Snap.parse(perform.svgText).select('*');
         elem.node.dataset.seq = seq;
@@ -67,7 +73,13 @@ function InsertSVG(elem) {
             seqSelector(seq),
             function (elem) { elem.remove(); });
     }
-    perform.svgText = elem.toString();
+    perform.svgText = svgText;
+    perform.toJSON = function () {
+        return {
+            op: 'InsertSVG',
+            args: [perform.svgText]
+        };
+    };
     return perform;
 }
 
@@ -94,7 +106,7 @@ function WrapSnap(elem) {
             if (!this.hasModifications) return;
             state.perform(s,
                 ModifySVG(
-                    this.snap,
+                    this.node.dataset.seq,
                     this.from,
                     this.to));
             this.hasModifications = false;
@@ -104,7 +116,7 @@ function WrapSnap(elem) {
     };
 }
 
-function ModifySVG(elem, from, to) {
+function ModifySVG(seq, from, to) {
     function perform(s, _seq) {
         forEachSVG(
             s,
@@ -118,8 +130,14 @@ function ModifySVG(elem, from, to) {
             seqSelector(perform.seq),
             function (elem) { elem.attr(perform.from); });
     }
-    perform.seq = elem.node.dataset.seq;
+    perform.seq = seq;
     perform.from = from;
     perform.to = to;
+    perform.toJSON = function () {
+        return {
+            op: 'ModifySVG',
+            args: [perform.seq, perform.from, perform.to]
+        };
+    };
     return perform;
 }
