@@ -7,9 +7,6 @@ function StateManager(undoStack, redoStack) {
     this.canRedo = ko.computed(
         function () { return this.redoStack().length > 0; },
         this);
-    this.undo = this.undo.bind(this);
-    this.redo = this.redo.bind(this);
-    this.perform = this.perform.bind(this);
 }
 StateManager.prototype.copy = function StateManager_copy() {
     return new StateManager(this.undoStack(), this.redoStack());
