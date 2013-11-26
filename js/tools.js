@@ -16,7 +16,9 @@ PencilTool.prototype.onMove = function PencilTool_onMove(dx, dy, x, y, event) {
     this.line.attr('path', ['M', points[0], points[1], 'R'].concat(points).join(' '));
 };
 PencilTool.prototype.onEnd = function PencilTool_onEnd(x, y, event) {
-    this.viewModel.state.perform(this.viewModel.s, InsertSVG(this.line.remove().toString()));
+    this.viewModel.state.perform(
+        this.viewModel.s,
+        InsertSVG(this.line.remove().toString()));
     this.line = null;
 };
 

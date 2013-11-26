@@ -21,8 +21,8 @@ StateManager.prototype.toJSON = function StateManager_toJSON() {
 StateManager.prototype.undo = function StateManager_undo(s) {
     if (this.undoStack().length > 0) {
         var performer = this.undoStack.pop();
-        performer.undo(s, performer.seq);
-        this.redoStack.push(performer.redo);
+        performer.action.undo(s, performer.seq);
+        this.redoStack.push(performer.action);
         this.seqNumber = this.seqNumber - 1;
     }
 };
@@ -39,7 +39,8 @@ StateManager.prototype.perform = function StateManager_perform(s, action) {
 };
 StateManager.prototype._perform = function StateManager__perform(s, action) {
     var seq = this.seqNumber;
-    this.undoStack.push({undo: action(s, seq), redo: action, seq: seq});
+    action.redo(s, seq);
+    this.undoStack.push({action: action, seq: seq});
 };
 
 function seqSelector(seq) {
@@ -48,39 +49,6 @@ function seqSelector(seq) {
 
 function forEachSVG(s, sel, f) {
     Array.prototype.forEach.call(s.selectAll(sel), f);
-}
-
-function attributesToObject(namedNodeMap, res) {
-    if (res === undefined) {
-        res = {};
-    }
-    Array.prototype.forEach.call(namedNodeMap, function (attr) {
-        res[attr.name] = attr.value;
-    });
-    return res;
-}
-
-function InsertSVG(svgText) {
-    function perform(s, seq) {
-        var elem = Snap.parse(perform.svgText).select('*');
-        elem.node.dataset.seq = seq;
-        s.append(elem);
-        return undo;
-    }
-    function undo(s, seq) {
-        forEachSVG(
-            s,
-            seqSelector(seq),
-            function (elem) { elem.remove(); });
-    }
-    perform.svgText = svgText;
-    perform.toJSON = function () {
-        return {
-            op: 'InsertSVG',
-            args: [perform.svgText]
-        };
-    };
-    return perform;
 }
 
 function WrapSnap(elem) {
@@ -116,28 +84,41 @@ function WrapSnap(elem) {
     };
 }
 
-function ModifySVG(seq, from, to) {
-    function perform(s, _seq) {
-        forEachSVG(
-            s,
-            seqSelector(perform.seq),
-            function (elem) { elem.attr(perform.to); });
-        return undo;
-    }
-    function undo(s, _seq) {
-        forEachSVG(
-            s,
-            seqSelector(perform.seq),
-            function (elem) { elem.attr(perform.from); });
-    }
-    perform.seq = seq;
-    perform.from = from;
-    perform.to = to;
-    perform.toJSON = function () {
-        return {
-            op: 'ModifySVG',
-            args: [perform.seq, perform.from, perform.to]
-        };
+function InsertSVG(svgText) {
+    return {
+        toJSON: function InsertSVG_toJSON() {
+            return {op: 'InsertSVG', args: [svgText]};
+        },
+        undo: function InsertSVG_undo(s, seq) {
+            forEachSVG(
+                s,
+                seqSelector(seq),
+                function (elem) { elem.remove(); });
+        },
+        redo: function InsertSVG_redo(s, seq) {
+            var elem = Snap.parse(svgText).select('*');
+            elem.node.dataset.seq = seq;
+            s.append(elem);
+        }
     };
-    return perform;
+}
+
+function ModifySVG(seq, from, to) {
+    return {
+        toJSON: function ModifySVG_toJSON() {
+            return {op: 'ModifySVG', args: [seq, from, to]};
+        },
+        undo: function ModifySVG_undo(s, _seq) {
+            forEachSVG(
+                s,
+                seqSelector(seq),
+                function (elem) { elem.attr(from); });
+        },
+        redo: function ModifySVG_redo(s, _seq) {
+            forEachSVG(
+                s,
+                seqSelector(seq),
+                function (elem) { elem.attr(to); });
+        }
+    };
 }
