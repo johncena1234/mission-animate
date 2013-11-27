@@ -101,6 +101,17 @@ function ViewModel() {
             this.tools.mouse.strokeChanged(val);
         }
     }).extend({throttle: 250});
+    this.strokeWidth = ko.computed({
+        owner: this,
+        read: function readStrokeWidth() {
+            return this.drawStyle.strokeWidth;
+        },
+        write: function writeStrokeWidth(val) {
+            this.drawStyle.strokeWidth = val;
+            this.tools.mouse.strokeWidthChanged(val);
+        }
+    }).extend({throttle: 250});
+
 
     // Attach drag handlers
     function onMove(dx, dy, x, y, event) {

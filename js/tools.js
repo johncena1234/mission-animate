@@ -73,6 +73,12 @@ MouseTool.prototype.strokeChanged = function MouseTool_strokeChanged(newStroke) 
     }
     this.target.attr('stroke', newStroke);
 };
+MouseTool.prototype.strokeWidthChanged = function MouseTool_strokeWidthChanged(newStrokeWidth) {
+    if (this.target === null) {
+        return;
+    }
+    this.target.attr('stroke-width', newStrokeWidth);
+};
 MouseTool.prototype.clearSelection = function MouseTool_clearSelection() {
     if (this.target === null) {
         return;
