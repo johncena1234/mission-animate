@@ -67,7 +67,8 @@
       <button type="button" class="btn btn-default pencil-size" title="Pencil Size"> <i class="fa fa-circle"></i> </button>
       <button type="button" class="btn btn-default picture-size" title="Picture Size"> <i class="fa fa-arrows-alt"></i> </button>
       <button type="button" class="btn btn-default onion-skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
-      <button type="button" class="btn btn-default floppy-save" title="Save"> <i class="fa fa-save"></i> </button>
+      <button type="button" class="btn btn-default save" title="Save" data-bind="click: save"> <i class="fa fa-save"></i> </button>
+      <button type="button" class="btn btn-default load" title="Load" data-bind="click: load"> <i class="fa fa-folder-open-o"></i> </button>
       <button type="button" class="btn btn-default paper-clip" title="Paper Clip"> <i class="glyphicon glyphicon-paperclip"></i> </button>
       <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: stroke" />
     </div>
@@ -89,9 +90,12 @@
   <script src="libraries/Snap.svg-0.1.0/dist/snap.svg-min.js"></script>
   <!-- http://getbootstrap.com/ -->
   <script src="libraries/bootstrap-3.0.2/js/bootstrap.min.js"></script>
+  <!-- https://github.com/eligrey/FileSaver.js -->
+  <script src="libraries/FileSaver-d8c81c1.js"></script>
   <!-- our javascript -->
   <script src="js/state-manager.js"></script>
   <script src="js/frame-manager.js"></script>
+  <script src="js/persistence.js"></script>
   <script src="js/tools.js"></script>
   <script src="js/main.js"></script>
 </body>

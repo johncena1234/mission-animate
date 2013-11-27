@@ -52,6 +52,15 @@ function ViewModel() {
         this.tools.mouse.clearSelection();
         this.frames.currentFrame().redo(this.s);
     };
+    this.save = function save() {
+        this.tools.mouse.clearSelection();
+        var blob = new Blob(
+            [JSON.stringify(this.frames)],
+            {type: 'text/plain;charset=utf-8'});
+        saveAs(blob, 'anim-' + Date.now() + '.json');
+    };
+    this.load = function load() {
+    };
 
     // Knockout won't do css bindings on SVG elements, so we manually
     // toggle the hide class for the drag areas when the tool changes
@@ -102,3 +111,10 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
+
+mainSvg.node.addEventListener('drop', function drop(event) {
+    console.log([this, arguments]);
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
+}, false);
