@@ -50,8 +50,11 @@ body {
 	font-family: cursive;
 	color: yellow;
 }
-.bg {
+body {
 	background: linear-gradient(to top, green, darkblue);
+	height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 .welc {
 	font-size: 74px; color:lightgreen;
@@ -79,4 +82,7 @@ body {
 }
 .mid {
 	font-size: 24px
+}
+.see {
+	color: white
 }
