@@ -60,7 +60,20 @@ function ViewModel() {
         saveAs(blob, 'anim-' + Date.now() + '.json');
     };
     this.load = function load() {
+        $('#load-file-input').click();
     };
+    this.loadFile = function loadFile(file) {
+        var reader = new FileReader();
+        var self = this;
+        reader.onload = function fileRead() {
+            var obj = fromJSON(JSON.parse(this.result));
+            self.frames.replaceState(self.s, obj);
+        };
+        reader.readAsText(file);
+    };
+    $('#load-file-input').on('change', (function fileChange(event) {
+        Array.prototype.forEach.call(event.target.files, this.loadFile, this);
+    }).bind(this));
 
     // Knockout won't do css bindings on SVG elements, so we manually
     // toggle the hide class for the drag areas when the tool changes
@@ -111,10 +124,3 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
-
-mainSvg.node.addEventListener('drop', function drop(event) {
-    console.log([this, arguments]);
-    event.stopPropagation();
-    event.preventDefault();
-    return false;
-}, false);

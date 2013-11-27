@@ -30,6 +30,11 @@ body {
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
 }
+
+#load-file-input {
+	visibility: hidden;
+}
+
 .tools i {
 	font-size: 40px;
 }

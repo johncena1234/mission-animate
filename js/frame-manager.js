@@ -59,6 +59,12 @@ FrameManager.prototype.prevFrame = function FrameManager_prevFrame(s) {
         frame.restore(s);
     }
 };
+FrameManager.prototype.replaceState = function FrameManager_replaceState(s, other) {
+    this.beforeFrames(other.beforeFrames());
+    this.afterFrames(other.afterFrames());
+    this.currentFrame(other.currentFrame());
+    this.currentFrame().restore(s);
+};
 FrameManager.prototype.toJSON = function FrameManager_toJSON() {
     return {
         op: 'FrameManager',
