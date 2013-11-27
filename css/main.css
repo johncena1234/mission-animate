@@ -46,8 +46,37 @@ body {
 	width: 52px;
 	border: 1px solid #ccc;
 }
-
 #ma .fancy {
 	font-family: cursive;
 	color: yellow;
+}
+.bg {
+	background: linear-gradient(to top, green, darkblue);
+}
+.welc {
+	font-size: 74px; color:lightgreen;
+}
+.cen {
+	text-align: center;
+}
+.intro {
+	font-size: 20px; color:indigo;
+}
+.draw {
+	background: white;
+}
+.cur {
+	font-family:cursive;
+}
+.xxlarge {
+	font-size: 60px
+}
+.xlarge {
+	font-size: 48px
+}
+.large {
+	font-size: 36px
+}
+.mid {
+	font-size: 24px
 }
