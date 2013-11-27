@@ -35,6 +35,9 @@ function ViewModel() {
     this.insertFrame = function insertFrame() {
         this.frames.insertFrame(this.s);
     };
+    this.deleteFrame = function deleteFrame() {
+        this.frames.deleteFrame(this.s);
+    };
     this.changeTool = function changeTool(model, event) {
     	this.tool(event.currentTarget.dataset.tool);
     };
