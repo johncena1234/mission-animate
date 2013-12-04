@@ -123,13 +123,7 @@ function ViewModel() {
     function onEnd(x, y, event) {
         this.currentTool().onEnd(x, y, event);
     }
-    dragArea.drag(
-        onMove, onStart, onEnd,
-        this, this, this);
-    s.drag(
-        onMove, onStart, onEnd,
-        this, this, this);
-    mouseArea.drag(
+    this.mainSvg.drag(
         onMove, onStart, onEnd,
         this, this, this);
 }
