@@ -6,7 +6,7 @@ PencilTool.prototype.line = null;
 PencilTool.prototype.onStart = function PencilTool_onStart(x, y, event) {
     x = event.offsetX;
     y = event.offsetY;
-    this.line = s.path(['M', x, y].join(' '));
+    this.line = this.viewModel.s.path(['M', x, y].join(' '));
     this.line.data('points', [x, y]);
     this.line.attr(this.style);
 };
