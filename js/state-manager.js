@@ -26,7 +26,7 @@ StateManager.prototype.undo = function StateManager_undo(s) {
     }
 };
 StateManager.prototype.cache = function StateManager_cache(s) {
-    this.cachedSVG = s.innerSVG();
+    this.cachedSVG = s.node.cloneNode(true);
     return this;
 };
 StateManager.prototype.restore = function StateManager_restore(s) {
@@ -34,7 +34,7 @@ StateManager.prototype.restore = function StateManager_restore(s) {
         elem.remove();
     });
     if (this.cachedSVG) {
-        forEachSVG(Snap.parse(this.cachedSVG), '*', function (elem) {
+        forEachSVG(Snap(this.cachedSVG), '*', function (elem) {
             s.append(elem);
         });
     } else {
