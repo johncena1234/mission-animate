@@ -1,6 +1,6 @@
 body {
 	padding-top: 50px;
-	background: linear-gradient(to top, green, darkblue);
+	background: linear-gradient(to top, cyan, blue, darkblue);
 	height: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -60,13 +60,13 @@ body {
 	color: yellow;
 }
 .welc {
-	font-size: 74px; color:lightgreen;
+	font-size: 74px; color:cyan;
 }
 .cen {
 	text-align: center;
 }
 .intro {
-	font-size: 20px; color:yellow;
+	font-size: 20px; color: blue;
 }
 .draw {
 	background: white;
@@ -90,5 +90,5 @@ body {
 	color: white
 }
 .link {
-	color: orange
+	color: lightblue;
 }
