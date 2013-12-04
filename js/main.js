@@ -1,7 +1,6 @@
 /*
   See http://snapsvg.io/start/
 */
-var state = new StateManager();
 var mainSvg = Snap("#svg");
 
 // s will be our drawing surface
@@ -9,42 +8,124 @@ var s = mainSvg.select('.draw-area');
 
 // dragArea is on top of s, so we can draw over the whole surface
 var dragArea = mainSvg.select('.drag-area');
-var line = null;
-dragArea.drag(
-    function onMove(dx, dy, x, y, event) {
-    	x = parseFloat(line.asPX("x1"));
-    	y = parseFloat(line.asPX("y1"));
-    	line.attr({x2: x + dx, y2: y + dy});
-    },
-    function onStart(x, y, event) {
-    	line = s.line(
-            event.offsetX, event.offsetY,
-            event.offsetX, event.offsetY);	
-    	line.attr(viewModel.lineStyles[viewModel.tool()]);
-    },
-    function onEnd(x, y, event) {
-        state.perform(s, InsertSVG(line.remove()));
-    });
+var mouseArea = mainSvg.select('.mouse-area');
 
 function ViewModel() {
-    var self = this;
-    this.tool = ko.observable("pencil");
     this.mainSvg = mainSvg;
-    this.lineStyles = {
-    	pencil: {stroke: "#000000", strokeWidth: 10},
-    	eraser: {stroke: "white", strokeWidth: 10}};
     this.s = s;
-    this.state = state;
-    this.changeTool = function(model, event) {
+    this.frames = new FrameManager();
+    this.drawStyle = {fill: 'none', stroke: "#000000", strokeWidth: 10, strokeLinecap: 'round'};
+    this.eraserStyle = {fill: 'none', stroke: "white", strokeWidth: 10, strokeLinecap: 'round'};
+    this.tools = {
+        pencil: new PencilTool(this, this.drawStyle),
+        eraser: new PencilTool(this, this.eraserStyle),
+        line: new LineTool(this, this.drawStyle),
+        mouse: new MouseTool(this)
+    };
+    this.tool = ko.observable("pencil");
+    this.currentTool = function () {
+        return this.tools[this.tool()];
+    };
+    this.nextFrame = function nextFrame() {
+        this.frames.nextFrame(this.s);
+    };
+    this.prevFrame = function prevFrame() {
+        this.frames.prevFrame(this.s);
+    };
+    this.insertFrame = function insertFrame() {
+        this.frames.insertFrame(this.s);
+    };
+    this.deleteFrame = function deleteFrame() {
+        this.frames.deleteFrame(this.s);
+    };
+    this.changeTool = function changeTool(model, event) {
     	this.tool(event.currentTarget.dataset.tool);
     };
+    this.toolClasses = function toolClasses(element) {
+        return {active: element.dataset.tool === this.tool()};
+    };
     this.undo = function undo() {
-        self.state.undo(self.s);
+        this.tools.mouse.clearSelection();
+        this.frames.currentFrame().undo(this.s);
     };
     this.redo = function redo() {
-        self.state.redo(self.s);
+        this.tools.mouse.clearSelection();
+        this.frames.currentFrame().redo(this.s);
     };
+    this.save = function save() {
+        this.tools.mouse.clearSelection();
+        var blob = new Blob(
+            [JSON.stringify(this.frames)],
+            {type: 'text/plain;charset=utf-8'});
+        saveAs(blob, 'anim-' + Date.now() + '.json');
+    };
+    this.load = function load() {
+        $('#load-file-input').click();
+    };
+    this.loadFile = function loadFile(file) {
+        var reader = new FileReader();
+        var self = this;
+        reader.onload = function fileRead() {
+            var obj = fromJSON(JSON.parse(this.result));
+            self.frames.replaceState(self.s, obj);
+        };
+        reader.readAsText(file);
+    };
+    $('#load-file-input').on('change', (function fileChange(event) {
+        Array.prototype.forEach.call(event.target.files, this.loadFile, this);
+    }).bind(this));
+
+    // Knockout won't do css bindings on SVG elements, so we manually
+    // toggle the hide class for the drag areas when the tool changes
+    this.tool.subscribe(function toolChanged(tool) {
+        dragArea.node.classList.toggle('hide', tool === 'mouse');
+        mouseArea.node.classList.toggle('hide', tool !== 'mouse');
+        this.tools.mouse.clearSelection();
+    }, this);
+
+    // Before the frame changes we need to unselect elements and commit
+    // any pending changes from the mouse tool
+    this.frames.currentFrame.subscribe(function frameChanged(newFrame) {
+        this.tools.mouse.clearSelection();
+    }, this, 'beforeChange');
+
+    // Change stroke color of drawStyle
+    // and any element selected by the mouse tool
+    this.stroke = ko.computed({
+        owner: this,
+        read: function readStroke() {
+            return this.drawStyle.stroke;
+        },
+        write: function writeStroke(val) {
+            this.drawStyle.stroke = val;
+            this.tools.mouse.strokeChanged(val);
+        }
+    }).extend({throttle: 250});
+    this.strokeWidth = ko.computed({
+        owner: this,
+        read: function readStrokeWidth() {
+            return this.drawStyle.strokeWidth;
+        },
+        write: function writeStrokeWidth(val) {
+            this.drawStyle.strokeWidth = val;
+            this.tools.mouse.strokeWidthChanged(val);
+        }
+    }).extend({throttle: 250});
+
+
+    // Attach drag handlers
+    function onMove(dx, dy, x, y, event) {
+        this.currentTool().onMove(dx, dy, x, y, event);
+    }
+    function onStart(x, y, event) {
+        this.currentTool().onStart(x, y, event);
+    }
+    function onEnd(x, y, event) {
+        this.currentTool().onEnd(x, y, event);
+    }
+    this.mainSvg.drag(
+        onMove, onStart, onEnd,
+        this, this, this);
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
-

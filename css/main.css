@@ -1,22 +1,50 @@
 body {
-  padding-top: 50px;
+	padding-top: 50px;
+	background: linear-gradient(to top, green, darkblue);
+	height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 #svg {
 	display: block;
-    margin: 5px auto;
-    border: 1px solid black;
+	margin: 5px auto;
+	border: 1px solid black;
 }
+#svg .selected {
+	filter: url(#glow);
+}
+
 .starter-template {
-  padding: 40px 15px;
-  text-align: center;
+	padding: 40px 15px;
+	text-align: center;
 }
-.tools {margin: 5px auto;
-		width: 500px;
-		height: 500px;
-		}
-.tools i {font-size: 40px;
+
+.after-tools {
+	margin: 5px auto;
+	width: 500px;
 }
-.tools button {margin-bottom: 5px;}
+
+.tools {
+	margin: 5px auto;
+	width: 500px;
+	user-select: none;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+#load-file-input {
+	visibility: hidden;
+}
+
+.tools i {
+	font-size: 40px;
+}
+.tools button {
+	margin-bottom: 5px;
+}
 
 #pencil-color {
 	margin-bottom: 5px;
@@ -27,7 +55,40 @@ body {
 	width: 52px;
 	border: 1px solid #ccc;
 }
-.fancy {
+#ma .fancy {
 	font-family: cursive;
 	color: yellow;
+}
+.welc {
+	font-size: 74px; color:lightgreen;
+}
+.cen {
+	text-align: center;
+}
+.intro {
+	font-size: 20px; color:yellow;
+}
+.draw {
+	background: white;
+}
+.cur {
+	font-family:cursive;
+}
+.xxlarge {
+	font-size: 60px
+}
+.xlarge {
+	font-size: 48px
+}
+.large {
+	font-size: 36px
+}
+.med {
+	font-size: 24px
+}
+.see {
+	color: white
+}
+.link {
+	color: orange
 }

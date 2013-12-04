@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html>
 <head>
   <title>Mission Animate - Create</title>
@@ -11,7 +11,7 @@
   <!-- our css -->
   <link rel="stylesheet" href="css/main.css">
 </head>
-<body style="background:yellow">
+<body id="ma">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -21,30 +21,44 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html" style="color:yellow; font-family:cursive;"><img src="logo.png"></img>Mission Animate</a>
+        <div class="navbar-brand fancy cur"><img src="logo.png"></img> Mission Animate</div>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="index.html" class="fancy">Home</a></li>
-          <li class="active"><a href="edit.html" class="fancy">Create</a></li>
-          <li><a href="about.html" class="fancy">About</a></li>
-          <li><a href="help.html" class="fancy">Help</a></li>
-          <li><a href="changes.html" class="fancy">Changes</a></li>
+          <li><a href="index.html" class="fancy cur">Home</a></li>
+          <li class="active"><a href="edit.html" class="fancy cur">Create</a></li>
+          <li><a href="about.html" class="fancy cur">About</a></li>
+          <li><a href="help.html" class="fancy cur">Help</a></li>
+          <li><a href="changes.html" class="fancy cur">Changes</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
   </div>
-
-  <div class="container" style="background:white">
+  <div>
+  </div>
+  <div class="container draw">
     <svg id="svg" width="500" height="500">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- This rect is on the bottom for unselecting -->
+      <rect x="0" y="0" width="500" height="500" fill="rgba(0,0,0,0)" class="mouse-area"/>
       <!-- This group is where we put the graphics -->
       <g class="draw-area"></g>
       <!-- This rect is usually on top for the drawing tools -->
       <rect x="0" y="0" width="500" height="500" fill="rgba(0,0,0,0)" class="drag-area"/>
     </svg>
     <div class="tools">
-      <button type="button" class="btn btn-default back" title="Go Back"> <i class="fa fa-caret-left"></i> </button>
-      <button type="button" class="btn btn-default forward" title="Go Forward"> <i class="fa fa-caret-right"></i> </button>
+      <button type="button" class="btn btn-default back" title="Go Back" data-bind="enable: frames.hasPrevFrame(), click: prevFrame"> <i class="fa fa-caret-left"></i> </button>
+      <button type="button" class="btn btn-default forward" title="Go Forward" data-bind="enable: frames.hasNextFrame(), click: nextFrame"> <i class="fa fa-caret-right"></i> </button>
+      <button type="button" class="btn btn-default insert" title="Insert Frame" data-bind="click: insertFrame"> <i class="fa fa-plus-square"></i> </button>
+      <button type="button" class="btn btn-default delete" title="Delete Frame" data-bind="click: deleteFrame"> <i class="glyphicon glyphicon-trash"></i> </button>
       <button type="button" class="btn btn-default pause" title="Pause"> <i class="fa fa-caret-square-o-right"></i> </button>
       <button type="button" class="btn btn-default mouse" title="Mouse"> <i class="fa fa-location-arrow"></i> </button>
       <button type="button" class="btn btn-default pencil" data-tool="pencil" data-bind="css: {active: tool() == 'pencil'}, click: changeTool" title="Pencil"> <i class="fa fa-pencil"></i> </button>
@@ -60,8 +74,28 @@
       <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: lineStyles.pencil.stroke" />
       <button type="button" class="btn btn-default paper clip" title="paper clip"> <i class="glyphicon glyphicon-clip"></i> </button>
       <div style="text-align: center; font-size: 36px; font-family:cursive">
+      <button type="button" class="btn btn-default mouse" title="Mouse" data-tool="mouse" data-bind="css: toolClasses($element), click: changeTool"> <i class="fa fa-location-arrow"></i> </button>
+      <button type="button" class="btn btn-default pencil" data-tool="pencil" data-bind="css: toolClasses($element), click: changeTool" title="Pencil"> <i class="fa fa-pencil"></i> </button>
+      <button type="button" class="btn btn-default line" data-tool="line" data-bind="css: toolClasses($element), click: changeTool" title="Line"> <i class="fa fa-minus"></i> </button>
+      <button type="button" class="btn btn-default eraser" data-tool="eraser" data-bind="css: toolClasses($element), click: changeTool" title="Eraser"> <i class="fa fa-eraser"></i> </button>
+      <button type="button" class="btn btn-default undo" title="Undo" data-bind="enable: frames.currentFrame().canUndo(), click: undo"> <i class="fa fa-undo"></i> </button>
+      <button type="button" class="btn btn-default redo" title="Redo" data-bind="enable: frames.currentFrame().canRedo(), click: redo"> <i class="fa fa-repeat"></i> </button>
+      <button type="button" class="btn btn-default picture-size" title="Picture Size"> <i class="fa fa-arrows-alt"></i> </button>
+      <button type="button" class="btn btn-default onion-skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
+      <button type="button" class="btn btn-default save" title="Save" data-bind="click: save"> <i class="fa fa-save"></i> </button>
+      <button type="button" class="btn btn-default load" title="Load" data-bind="click: load"> <i class="fa fa-folder-open-o"></i> </button>
+      <button type="button" class="btn btn-default paper-clip" title="Paper Clip"> <i class="glyphicon glyphicon-paperclip"></i> </button>
+      <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: stroke" />
+      <input type="range" min="1" max="30" data-bind="value: strokeWidth" class="strok-size"/>
+      <input type="file" id="load-file-input"/>
+    </div>
+    <div class="after-tools">
+      <div>
+        Frame [<span data-bind="text: frames.frameNum">n</span>/<span data-bind="text: frames.frameCount">n</span>]
+      <div class="cen cur large">
+>>>>>>> 67fe4afc85f0bd1f186be597976d6a4ba3a3d1c5
         Need help? Go to <a href="help.html">this page!</a>
-        <a href="about.html" class="btn btn-primary btn-lg" role="button" style="font-family:cursive;">Found an error? Email us!</a>
+        <a href="about.html" class="btn btn-primary btn-lg" role="button" class="cur">Found an error? Email us!</a>
       </div>
     </div>
   </div><!-- /.container -->
@@ -74,8 +108,13 @@
   <script src="libraries/Snap.svg-0.1.0/dist/snap.svg-min.js"></script>
   <!-- http://getbootstrap.com/ -->
   <script src="libraries/bootstrap-3.0.2/js/bootstrap.min.js"></script>
+  <!-- https://github.com/eligrey/FileSaver.js -->
+  <script src="libraries/FileSaver-d8c81c1.js"></script>
   <!-- our javascript -->
   <script src="js/state-manager.js"></script>
+  <script src="js/frame-manager.js"></script>
+  <script src="js/persistence.js"></script>
+  <script src="js/tools.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
