@@ -89,7 +89,7 @@ function WrapSnap(elem) {
             if (!this.hasModifications) return;
             state.perform(s,
                 ModifySVG(
-                    this.node.dataset.seq,
+                    this.node.getAttribute('data-seq'),
                     this.from,
                     this.to));
             this.hasModifications = false;
@@ -112,7 +112,7 @@ function InsertSVG(svgText) {
         },
         redo: function InsertSVG_redo(s, seq) {
             var elem = Snap.parse(svgText).select('*');
-            elem.node.dataset.seq = seq;
+            elem.node.setAttribute('data-seq', seq);
             s.append(elem);
         }
     };
