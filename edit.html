@@ -72,6 +72,7 @@
       <button type="button" class="btn btn-default onion-skin" title="Onion Skin"> <i class="fa fa-group"></i> </button>
       <button type="button" class="btn btn-default save" title="Save" data-bind="click: save"> <i class="fa fa-save"></i> </button>
       <button type="button" class="btn btn-default load" title="Load" data-bind="click: load"> <i class="fa fa-folder-open-o"></i> </button>
+      <button type="button" class="btn btn-default download" title="Download GIF" data-bind="click: download"> <i class="fa fa-download"></i> </button>
       <button type="button" class="btn btn-default paper-clip" title="Paper Clip"> <i class="glyphicon glyphicon-paperclip"></i> </button>
       <input type="color" id="pencil-color" title="Change Color" class="btn-default" data-bind="value: stroke" />
       <input type="range" min="1" max="30" data-bind="value: strokeWidth" class="strok-size"/>
@@ -100,6 +101,13 @@
   <script src="libraries/FileSaver-d8c81c1.js"></script>
   <!-- http://bgrins.github.io/spectrum/ -->
   <script src="libraries/bgrins-spectrum-28ab793/spectrum.js"></script>
+  <!-- https://code.google.com/p/canvg/ -->
+  <script src="libraries/canvg-1.3/rgbcolor.js"></script>
+  <script src="libraries/canvg-1.3/StackBlur.js"></script>
+  <script src="libraries/canvg-1.3/canvg.js"></script>
+  <!-- http://jnordberg.github.io/gif.js/ -->
+  <script src="libraries/gif.js-0.1.5/gif.js"></script>
+  <script src="libraries/gif.js-0.1.5/gif.worker.blob.js"></script>
   <!-- our javascript -->
   <script src="js/state-manager.js"></script>
   <script src="js/frame-manager.js"></script>

@@ -1,0 +1,46 @@
+{
+  "name": "rasterizeHTML.js",
+  "title": "rasterizeHTML.js",
+  "version": "0.6.0",
+  "description": "Renders HTML into the browser's canvas.",
+  "keywords": [
+    "canvas",
+    "HTML"
+  ],
+  "homepage": "http://www.github.com/cburgmer/rasterizeHTML.js",
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "author": {
+    "name": "Christoph Burgmer",
+    "email": "christoph.burgmer@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cburgmer/rasterizeHTML.js.git"
+  },
+  "dependencies": {
+    "cssom": "~0.3.0",
+    "url": "~0.7.9",
+    "xmlserializer": "~0.3.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-jasmine": "~0.5.2",
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-regex-check": "~0.1.5",
+    "grunt-contrib-clean": "~0.5.0",
+    "bower": "~1.2.0",
+    "browserify": "~2.35.1",
+    "grunt-browserify": "~1.2.11"
+  },
+  "scripts": {
+    "test": "bash go --verbose"
+  }
+}

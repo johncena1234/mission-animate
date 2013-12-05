@@ -25,6 +25,18 @@ StateManager.prototype.undo = function StateManager_undo(s) {
         this.redoStack.push(action);
     }
 };
+StateManager.prototype.render = function StateManager_render(w, h) {
+    var s = Snap();
+    var svg = s.node;
+    svg.parentNode.removeChild(svg);
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    s.rect(0, 0, w, h).attr({fill: 'white'});
+    this.undoStack().forEach(function (action, i) {
+        action.redo(s, 1 + i);
+    });
+    return s.toString();
+};
 StateManager.prototype.cache = function StateManager_cache(s) {
     this.cachedSVG = s.node.cloneNode(true);
     return this;

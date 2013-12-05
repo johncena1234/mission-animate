@@ -27,6 +27,32 @@ function FrameManager(currentFrame, beforeFrames, afterFrames) {
         }
     });
 };
+
+FrameManager.prototype.download = function FrameManager_download() {
+    var canvas = document.createElement('canvas');
+    var w = 500;
+    var h = 500;
+    canvas.width = w;
+    canvas.height = h;
+    var gif = new GIF({
+        workers: 2,
+        quality: 10,
+        workerScript: window.URL.createObjectURL(GIF_WORKER_BLOB),
+        width: w,
+        height: h});
+    function renderFrame(frame) {
+        canvg(canvas, frame.render(w, h));
+        gif.addFrame(canvas, {copy: true, delay: 100});
+    }
+    gif.on('finished', function(blob) {
+        saveAs(blob, 'anim-' + Date.now() + '.gif');
+    });
+    this.beforeFrames().forEach(renderFrame);
+    [this.currentFrame()].forEach(renderFrame);
+    this.afterFrames().slice().reverse().forEach(renderFrame);
+    gif.render();
+};
+
 FrameManager.prototype.insertFrame = function FrameManager_insertFrame(s) {
     var oldFrame = this.currentFrame();
     var frame = oldFrame.copy();

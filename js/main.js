@@ -59,6 +59,10 @@ function ViewModel() {
             {type: 'text/plain;charset=utf-8'});
         saveAs(blob, 'anim-' + Date.now() + '.json');
     };
+    this.download = function download() {
+        this.tools.mouse.clearSelection();
+        this.frames.download();
+    };
     this.load = function load() {
         $('#load-file-input').click();
     };
