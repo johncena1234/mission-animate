@@ -151,6 +151,10 @@ function ViewModel() {
     this.mainSvg.drag(
         onMove, onStart, onEnd,
         this, this, this);
+    this.mainSvg.node.addEventListener('contextmenu', function (event) {
+        // prevent accidental right click -> back
+        event.preventDefault();
+    });
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
