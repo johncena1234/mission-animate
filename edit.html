@@ -29,9 +29,12 @@
         <ul class="nav navbar-nav">
           <li><a href="index.html" class="fancy cur">Home</a></li>
           <li class="active"><a href="edit.html" class="fancy cur">Create</a></li>
-          <li><a href="about.html" class="fancy cur">About</a></li>
-          <li><a href="help.html" class="fancy cur">Help</a></li>
-          <li><a href="changes.html" class="fancy cur">Changes</a></li>
+          <li class="dropdown fancy cur">
+              <a href="other.html" class="dropdown-toggle fancy cur" data-toggle="dropdown">Other<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="help.html">Tutorial</a></li>
+                <li><a href="changes.html">Changelog</a></li>
+                <li><a href="about.html">About</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -83,7 +86,7 @@
         Frame [<span data-bind="text: frames.frameNum">n</span>/<span data-bind="text: frames.frameCount">n</span>]
       </div>
       <div class="cen cur large">
-        Need help? Go to <a href="help.html">this page!</a>
+        <p>Need help? Go to <a href="help.html">this page!</a></p>
         <a href="about.html" class="btn btn-primary btn-lg" role="button" class="cur">Found an error? Email us!</a>
       </div>
     </div>
