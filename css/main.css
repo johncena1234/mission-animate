@@ -1,6 +1,6 @@
 body {
 	padding-top: 50px;
-	background-image: -webkit-linear-gradient(to top, cyan, blue, darkblue);
+	background-image: -webkit-linear-gradient(darkblue, blue, cyan);
 	background-image: linear-gradient(to top, cyan, blue, darkblue);
 	height: 100%;
     background-repeat: no-repeat;
@@ -61,7 +61,7 @@ body {
 	color: yellow;
 }
 .welc {
-	font-size: 74px; color:cyan;
+	font-size: 74px; color:aquamarine;
 }
 .cen {
 	text-align: center;
