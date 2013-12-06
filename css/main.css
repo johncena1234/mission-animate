@@ -1,6 +1,7 @@
 body {
 	padding-top: 50px;
-	background: linear-gradient(to top, cyan, blue, darkblue);
+	background-image: -webkit-linear-gradient(to top, cyan, blue, darkblue);
+	background-image: linear-gradient(to top, cyan, blue, darkblue);
 	height: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
