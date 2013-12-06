@@ -1,0 +1,17 @@
+importScripts(
+    '../src/zpipe/dist/zpipe.raw.js',
+    '../src/zpipe/src/zpipe.funcs.js',
+    '../src/jsziptools.js',
+    '../src/utils.js',
+    '../src/algorithms/adler32.js',
+    '../src/algorithms/crc32.js',
+    '../src/algorithms/deflate.js',
+    '../src/algorithms/inflate.js',
+    '../src/zlib.compress.js',
+    '../src/zlib.decompress.js',
+    '../src/gz.compress.js',
+    '../src/gz.decompress.js',
+    '../src/zip.pack.js',
+    '../src/zip.unpack.js',
+    'worker_body.js'
+);

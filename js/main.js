@@ -54,10 +54,16 @@ function ViewModel() {
     };
     this.save = function save() {
         this.tools.mouse.clearSelection();
-        var blob = new Blob(
-            [JSON.stringify(this.frames)],
-            {type: 'text/plain;charset=utf-8'});
-        saveAs(blob, 'anim-' + Date.now() + '.json');
+        var name = 'anim-' + Date.now() + '.json';
+        var files = [
+            {name: name, level: 5, buffer: JSON.stringify(this.frames)}
+        ];
+        jz.zip.pack({files: files}).done(function (buffer) {
+            var blob = new Blob(
+                [buffer],
+                {type: 'application/zip'});
+            saveAs(blob, name + '.zip');
+        });
     };
     this.download = function download() {
         this.tools.mouse.clearSelection();
@@ -69,11 +75,26 @@ function ViewModel() {
     this.loadFile = function loadFile(file) {
         var reader = new FileReader();
         var self = this;
-        reader.onload = function fileRead() {
-            var obj = fromJSON(JSON.parse(this.result));
+        function loadJSON(text) {
+            var obj = fromJSON(JSON.parse(text));
             self.frames.replaceState(self.s, obj);
-        };
-        reader.readAsText(file);
+        }
+        if (file.type === 'application/zip') {
+            reader.onload = function () {
+                jz.zip.unpack(this.result).done(function (reader) {
+                    window._reader = reader;
+                    reader.getFileAsText(reader.getFileNames()[0])
+                        .done(loadJSON)
+                        .fail(function (err) { console.log(err); });
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            reader.onload = function fileRead() {
+                loadJSON(this.result);
+            };
+            reader.readAsText(file);
+        }
     };
     $('#load-file-input').on('change', (function fileChange(event) {
         Array.prototype.forEach.call(event.target.files, this.loadFile, this);
