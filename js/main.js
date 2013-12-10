@@ -155,6 +155,34 @@ function ViewModel() {
         // prevent accidental right click -> back
         event.preventDefault();
     });
+
+    // left arrow
+    this.keydown_37 = this.prevFrame;
+    // right arrow
+    this.keydown_39 = this.nextFrame;
+    // meta-z
+    this.keydown_meta_90 = this.undo;
+    // meta-shift-z
+    this.keydown_meta_shift_90 = this.redo;
 }
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
+
+$(window).on('keydown', function (event) {
+    var eventName = 'keydown_';
+    ['alt', 'ctrl', 'meta', 'shift'].forEach(function (k) {
+        if (event[k + 'Key']) {
+            eventName += k + '_';
+        }
+    });
+    eventName += event.which;
+    var f = viewModel[eventName];
+    if (f) {
+        event.preventDefault();
+        f.call(viewModel, event);
+        return false;
+    } else if (console && console.log) {
+        // Uncomment this to see the key codes in the console
+        // console.log([eventName, event]);
+    }
+});
