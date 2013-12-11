@@ -29,6 +29,10 @@ function FrameManager(currentFrame, beforeFrames, afterFrames) {
 };
 
 FrameManager.prototype.download = function FrameManager_download() {
+    $('#myModal')
+        .toggleClass('loading', true)
+        .modal({show: true});
+    $('#myModal .download-button').prop('disabled', true);
     var canvas = document.createElement('canvas');
     var w = 500;
     var h = 500;
@@ -40,17 +44,31 @@ FrameManager.prototype.download = function FrameManager_download() {
         workerScript: window.URL.createObjectURL(GIF_WORKER_BLOB),
         width: w,
         height: h});
-    function renderFrame(frame) {
-        canvg(canvas, frame.render(w, h));
-        gif.addFrame(canvas, {copy: true, delay: 100});
-    }
     gif.on('finished', function(blob) {
-        saveAs(blob, 'anim-' + Date.now() + '.gif');
+        $('#myModal').toggleClass('loading', false);
+        $('#myModal img.modal-img')
+            .attr('src', window.URL.createObjectURL(blob));
+        $('#myModal .download-button')
+            .prop('disabled', false)
+            .data('blob', blob);
     });
-    this.beforeFrames().forEach(renderFrame);
-    [this.currentFrame()].forEach(renderFrame);
-    this.afterFrames().slice().reverse().forEach(renderFrame);
-    gif.render();
+    var frameQueue = this.beforeFrames().concat(
+        [this.currentFrame()],
+        this.afterFrames().slice().reverse());
+    var i = 0;
+    function renderOneFrame() {
+        $('#myModal .percent-done').text((100 * i/(1 + frameQueue.length)).toFixed(0) + '%');
+        if (i < frameQueue.length) {
+            var frame = frameQueue[i];
+            canvg(canvas, frame.render(w, h));
+            gif.addFrame(canvas, {copy: true, delay: 100});
+            i += 1;
+            window.setTimeout(renderOneFrame, 0);
+        } else {
+            gif.render();
+        }
+    }
+    renderOneFrame();
 };
 
 FrameManager.prototype.insertFrame = function FrameManager_insertFrame(s) {

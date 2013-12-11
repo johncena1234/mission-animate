@@ -94,3 +94,12 @@ body {
 .link {
 	color: blue;
 }
+.loading .modal-img {
+	display: none;
+}
+.percent-done {
+	display: none;
+}
+.loading .percent-done {
+	display: inline;
+}

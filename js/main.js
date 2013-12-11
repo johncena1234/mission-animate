@@ -186,3 +186,10 @@ $(window).on('keydown', function (event) {
         // console.log([eventName, event]);
     }
 });
+
+$('#myModal .download-button').on('click', function (event) {
+    event.preventDefault();
+    var blob = $(this).data('blob');
+    var name = 'anim-' + Date.now() + '.gif';
+    saveAs(blob, name);
+});
