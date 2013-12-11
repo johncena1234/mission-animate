@@ -155,7 +155,11 @@ function ViewModel() {
         // prevent accidental right click -> back
         event.preventDefault();
     });
-
+    this.keydown_meta_65 = this.insertFrame;
+    //deleteFrame
+    this.keydown_meta_68 = this.deleteFrame;
+    // save
+    this.keydown_meta_83 = this.save;
     // left arrow
     this.keydown_37 = this.prevFrame;
     // right arrow
@@ -183,7 +187,7 @@ $(window).on('keydown', function (event) {
         return false;
     } else if (console && console.log) {
         // Uncomment this to see the key codes in the console
-        // console.log([eventName, event]);
+        console.log([eventName, event]);
     }
 });
 
